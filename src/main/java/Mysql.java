@@ -58,13 +58,18 @@ public class Mysql {
 
         try {
             PreparedStatement pst = connection.prepareStatement("INSERT INTO friends (target_id, friend_id) VALUES (?, ?)");
-            LOGGER.trace("PreparedStatement готов к использованию");
+            LOGGER.trace("PreparedStatement \"INSERT INTO friends (target_id, friend_id) VALUES (?, ?)\" готов к использованию");
             pst.setInt(1, targetId);
+            PreparedStatement pstFriendsChanges = connection.prepareStatement("INSERT INTO friendsChanges (target_id, friend_id, operation) VALUES (?, ?, true)");
+            LOGGER.trace("PreparedStatement \"INSERT INTO friendsChanges (target_id, friend_id, operation) VALUES (?, ?, true)\" готов к использованию");
+            pstFriendsChanges.setInt(1, targetId);
 
             for (int friendId : friends) {
                 pst.setInt(2, friendId);
+                pstFriendsChanges.setInt(2, friendId);
 
                 pst.executeUpdate();
+                pstFriendsChanges.executeUpdate();
             }
             LOGGER.info("Новые друзья добавлены в базу");
 
@@ -82,13 +87,18 @@ public class Mysql {
 
         try {
             PreparedStatement pst = connection.prepareStatement("DELETE FROM friends WHERE target_id = (?) AND friend_id = (?)");
-            LOGGER.trace("PreparedStatement готов к использованию");
+            LOGGER.trace("PreparedStatement \"DELETE FROM friends WHERE target_id = (?) AND friend_id = (?)\" готов к использованию");
             pst.setInt(1, targetId);
+            PreparedStatement pstFriendsChanges = connection.prepareStatement("INSERT INTO friendsChanges (target_id, friend_id, operation) VALUES (?, ?, false)");
+            LOGGER.trace("PreparedStatement \"INSERT INTO friendsChanges (target_id, friend_id, operation) VALUES (?, ?, false)\" готов к использованию");
+            pstFriendsChanges.setInt(1, targetId);
 
             for (int friendId : friends) {
                 pst.setInt(2, friendId);
+                pstFriendsChanges.setInt(2, friendId);
 
                 pst.executeUpdate();
+                pstFriendsChanges.executeUpdate();
             }
             LOGGER.info("Удаленные друзья удалены из базы");
 
