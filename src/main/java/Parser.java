@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -13,9 +15,9 @@ import java.util.Scanner;
 public class Parser {
     private static final Logger LOGGER = Logger.getLogger(Parser.class);
 
-    public ArrayList<int[]> getOnline(String vkIds) {
+    public Map<Integer, int[]> getOnline(String vkIds) {
         LOGGER.debug("Метод getOnline запущен");
-        ArrayList<int[]> onlineInfo = new ArrayList<>();
+        Map<Integer, int[]> onlineInfo = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
 
         String friendsString = getStringFromApi("https://api.vk.com/method/users.get?v=5.24&fields=online,online_mobile,last_seen&user_ids=" + vkIds);
@@ -29,7 +31,7 @@ public class Parser {
                     int online = node.get("online").asInt();
                     int time = node.get("last_seen").get("time").asInt();
                     int platform = node.get("last_seen").get("platform").asInt();
-                    onlineInfo.add(new int[]{id, online, time, platform});
+                    onlineInfo.put(id, new int[]{online, time, platform});
                 }
 
             LOGGER.info("Получена информация о " + onlineInfo.size() + " пользователях");
