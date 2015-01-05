@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -111,4 +113,29 @@ public class Mysql {
         LOGGER.debug("Метод removeFriends завершил работу");
     }
 
+    public Map<Integer, int[]> getUsersOnline() {
+        LOGGER.debug("Метод getUsersOnline запущен");
+
+        Map<Integer, int[]> usersOnline = new HashMap<>();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT user_id, online, time, platform FROM users");
+            LOGGER.trace("Запрос \"SELECT user_id, online, time, platform FROM users\" прошел успешно");
+
+            while (resultSet.next()) {
+                usersOnline.put(resultSet.getInt(1), new int[] {resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4)});
+            }
+            LOGGER.info("Получена информация о " + usersOnline.size() + " пользователях");
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            //e.printStackTrace();
+        }
+
+        LOGGER.debug("Метод getUsersOnline завершил работу");
+        return usersOnline;
+    }
 }
