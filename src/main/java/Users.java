@@ -1,12 +1,37 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sadvr on 12/10/14.
  */
 public class Users {
     // online: public Map<Integer, Boolean>
+
+    public void updateOnline(int vkId, Mysql mysql, Parser parser) {
+        /*Map<Integer, int[]> parserUsersOnline = new HashMap<>();
+        //ArrayList<int[]> dbUsersOnline = mysql.getUsersOnline();
+        Map<Integer, int[]> dbUsersOnline = mysql.getUsersOnline();
+
+        ArrayList<int[]> values = (ArrayList<int[]>) dbUsersOnline.values();
+        Set<Integer> l = parserUsersOnline.keySet();
+        String f = Arrays.toString(l.toArray()).replace(" ", "");
+
+        int dbUsersOnlineSize = dbUsersOnline.size();
+
+        ArrayList<Integer> dbUsersOnlineIds = new ArrayList<>();
+        for (int[] dbUserOnline : dbUsersOnline)
+            dbUsersOnlineIds.add(dbUserOnline[0]);
+
+
+        for (int i = 0; i < dbUsersOnlineSize; i += 1000) {
+            String vkIdsString = "";
+            for (int j = i; j < i + 1000; i++) {
+                vkIdsString += dbUsersOnline.get(0)[0];
+                parserUsersOnline.putAll(parser.getOnline(vkIdsString));
+            }
+        }
+*/
+
+    }
 
     public void friendsMonitoring(int vkId, Mysql mysql, Parser parser) {
         ArrayList<Integer> dbFriends = mysql.getFriends(vkId);
