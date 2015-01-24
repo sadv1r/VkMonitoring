@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -7,6 +8,7 @@ import java.util.Map.Entry;
  */
 public class Main {
     public static void main(String[] args) {
+        //Mysql mysql = new Mysql("188.166.49.139", "3306", "root", "", "");
         Mysql mysql = new Mysql("localhost", "3306", "root", "", "vk_spy");
         Parser parser = new Parser();
 
@@ -21,9 +23,12 @@ public class Main {
                 Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                break;
+                //break;
             }
         }
+
+        //for (Entry<Integer, int[]> l : parser.getOnline("1,2,5,6").entrySet())
+        //    System.out.println(Arrays.toString(l.getValue()));
 
     }
 
